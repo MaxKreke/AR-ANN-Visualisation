@@ -136,7 +136,7 @@ public class ANNContainer: MonoBehaviour
         layerObj.transform.SetParent(container);
         layerObj.transform.localScale = Vector3.one;
         layerObj.transform.localRotation = Quaternion.identity;
-        layerObj.transform.localPosition = (Vector3.right *offset + Vector3.up/2)* scalingFactor;
+        layerObj.transform.localPosition = (Vector3.right *offset + Vector3.up/4)* scalingFactor;
 
         int nodeCount = layer.Neurons.Length;
         if (input) nodeCount = inputCount;
