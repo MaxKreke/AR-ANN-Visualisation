@@ -30,16 +30,16 @@ public class ANNContainer: MonoBehaviour
     public GameObject weightPrefab;
 
     public Button startButton;
-    public TMP_Text consoleText;
+    private CanvasController cc;
 
     private float scalingFactor = .5f;
 
     private bool finished = true;
 
-
     void Start()
     {
         inputCount = GetComponent<DataLoader>().GetFeatureCount();
+        cc = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
     }
 
     // Update is called once per frame
@@ -76,8 +76,7 @@ public class ANNContainer: MonoBehaviour
 
     private void WriteToCanvas(object text)
     {
-        consoleText.text += "\n";
-        consoleText.text += text;
+        cc.StatusPrint(0, text);
     }
 
     private IEnumerator InitializeNetwork()

@@ -5,13 +5,15 @@ using System.Collections.Generic;
 
 public class ANNManager : MonoBehaviour
 {
-
     public LayerMask ANNLayers;
-    public GameObject weightInfo;
+    private CanvasController cc;
     public List<LayerManager> layers;
     public GameObject selected;
 
-    void Start() { WriteToInfo("Start"); }
+    void Start()
+    {
+        cc = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -85,13 +87,12 @@ public class ANNManager : MonoBehaviour
     {
         Highlight(0.0f);
         selected = null;
-        weightInfo.SetActive(false);
+        cc.StatusPrint(1, "");
     }
 
     private void WriteToInfo(string text)
     {
-        weightInfo.GetComponent<TMP_Text>().text = text;
-        weightInfo.SetActive(true);
+        cc.StatusPrint(1, text);
     }
 
     public void CollectLayers()

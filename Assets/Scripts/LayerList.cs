@@ -5,21 +5,12 @@ using TMPro;
 
 public class LayerList : MonoBehaviour
 {
-    public TMP_Text consoleText;
     public TMP_InputField input;
     public List<int> layers;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         layers = new List<int> ();
-        ClearCanvas();
-        //WriteToCanvas("Layers:");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public bool AddLayer()
@@ -42,7 +33,6 @@ public class LayerList : MonoBehaviour
         if (nodeCount > 20) return false;
 
         layers.Add(nodeCount);
-        //UpdateDisplay();
         return true;
     }
 
@@ -50,28 +40,6 @@ public class LayerList : MonoBehaviour
     {
         if (layers.Count == 0) return false;
         layers.RemoveAt(layers.Count - 1);
-        //UpdateDisplay();
         return true;
-    }
-
-    private void UpdateDisplay()
-    {
-        ClearCanvas();
-        WriteToCanvas("Layers:");
-        foreach (int layer in layers)
-        {
-            WriteToCanvas(layer);
-        }
-    }
-
-    private void ClearCanvas()
-    {
-        consoleText.text = string.Empty;
-    }
-
-    private void WriteToCanvas(object text)
-    {
-        consoleText.text += "\n";
-        consoleText.text += text;
     }
 }
