@@ -4,5 +4,5 @@
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
+.utmp/
 Assets/AssetStoreTools*
-*.utmp
