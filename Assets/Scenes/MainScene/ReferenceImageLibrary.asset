@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
   m_Name: ReferenceImageLibrary
   m_EditorClassIdentifier: 
-  m_GuidLow: 4617946894606867215
-  m_GuidHigh: 7551396300752275135
+  m_GuidLow: 4941442454527230373
+  m_GuidHigh: 17079093655778362288
   m_DataStore:
     m_Storage:
     - key: com.unity.xr.arcore
