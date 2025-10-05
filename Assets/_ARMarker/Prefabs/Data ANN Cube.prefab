@@ -2350,6 +2350,8 @@ MonoBehaviour:
     type: 3}
   inputNodePrefab: {fileID: 2067997517220231824, guid: 4e2a17ec471602b49882bbb16808d8f1,
     type: 3}
+  outputNodePrefab: {fileID: 9104836082360718558, guid: 4b9506e0b1b59cb4a874dc28f81fa2bc,
+    type: 3}
   weightPrefab: {fileID: 4730477222961080698, guid: 9de3f8b8ef609ec4d852f45b052fe245,
     type: 3}
   startButton: {fileID: 4391323603374877039}

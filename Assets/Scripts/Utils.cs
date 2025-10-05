@@ -47,4 +47,9 @@ public static class Utils
         for (int i = 0; i < matrix.Length; i++) { matrix[i][columnIdx]= column[i]; }
     }
 
+    public static void HighlightSelf(GameObject instance, float thickness)
+    {
+        instance.GetComponent<MeshRenderer>().materials[1].SetFloat("_Scale", thickness);
+    }
+
 }

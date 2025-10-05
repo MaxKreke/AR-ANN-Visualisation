@@ -26,6 +26,7 @@ public class ANNContainer: MonoBehaviour
     public LayerList ll;
     public GameObject nodePrefab;
     public GameObject inputNodePrefab;
+    public GameObject outputNodePrefab;
     public GameObject weightPrefab;
 
     public Button startButton;
@@ -143,8 +144,20 @@ public class ANNContainer: MonoBehaviour
 
         for (int i = 0; i < nodeCount; i++)
         {
+
+            //Instantiate node GameObject depending on whether its input, output or hidden layer
             GameObject nodeObj;
-            if(input)nodeObj = GameObject.Instantiate(inputNodePrefab, layerObj.transform);
+            if (input) nodeObj = GameObject.Instantiate(inputNodePrefab, layerObj.transform);
+            else if (idx == network.Layers.Length - 1)
+            {
+                nodeObj = GameObject.Instantiate(outputNodePrefab, layerObj.transform);
+                if(i > 2)
+                {
+                    Debug.LogError("Index exceeds class number");
+                    return;
+                }
+                nodeObj.GetComponent<OutputNodeRef>().SetClass(i);
+            }
             else nodeObj = GameObject.Instantiate(nodePrefab, layerObj.transform);
 
             nodeObj.name = "Node " + idx + "," + i;

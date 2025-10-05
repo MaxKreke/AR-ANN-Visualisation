@@ -69,7 +69,7 @@ public class ANNManager : MonoBehaviour
                 if (nr)
                 {
                     Highlight(1.25f);
-                    WriteToInfo("Bias: " + nr.GetBias().ToString());
+                    WriteToInfo(nr.GetString());
                 }
                 if (iDesc)
                 {
@@ -115,7 +115,9 @@ public class ANNManager : MonoBehaviour
     public void Highlight(float thickness)
     {
         if (!selected) return;
-        selected.GetComponent<MeshRenderer>().materials[1].SetFloat("_Scale", thickness);
+        NodeRef nr = selected.GetComponent<NodeRef>();
+        if (nr) nr.Highlight(thickness);
+        else Utils.HighlightSelf(selected, thickness);
     }
 
 }
