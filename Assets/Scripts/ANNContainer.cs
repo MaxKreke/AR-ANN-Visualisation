@@ -5,7 +5,6 @@ using Accord.Neuro.Learning;
 using Accord.Neuro.Networks;
 using Accord.Neuro.Layers;
 using Accord.Neuro.ActivationFunctions;
-using TMPro;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -30,6 +29,8 @@ public class ANNContainer: MonoBehaviour
     public GameObject weightPrefab;
 
     public Button startButton;
+    public Button modeButton;
+
     private CanvasController cc;
 
     private float scalingFactor = .5f;
@@ -40,13 +41,17 @@ public class ANNContainer: MonoBehaviour
     {
         inputCount = GetComponent<DataLoader>().GetFeatureCount();
         cc = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
+        cc.AssignANNContainer(this);
+
+        //Activate Toggle button as soon as the prefab is placed
+        cc.ActivateToggleButton();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (finished)return;
-        if (error > threshold && epoch <= 1000)
+        if (error > threshold && epoch <= 10000)
         {
             //Dividing error by trainingdataamount to get the average error per data point
             error = teacher.RunEpoch(input, output) / (double)input.Length;
@@ -64,6 +69,7 @@ public class ANNContainer: MonoBehaviour
         {
             finished = true;
             startButton.interactable = false;
+            modeButton.interactable = true;
             UpdateNetwork();
             UpdateText();
         }
@@ -71,12 +77,7 @@ public class ANNContainer: MonoBehaviour
 
     void UpdateText()
     {
-        WriteToCanvas("Epoch: " + epoch + "\nError: " + Math.Sqrt(error));
-    }
-
-    private void WriteToCanvas(object text)
-    {
-        cc.StatusPrint(0, text);
+        cc.StatusPrint(0, "Epoch: " + epoch + "\nError: " + Math.Sqrt(error));
     }
 
     private IEnumerator InitializeNetwork()
@@ -229,9 +230,13 @@ public class ANNContainer: MonoBehaviour
 
     }
 
-    private void CheckStartButton()
+    private void CheckButtons()
     {
-        if(ll.layers.Count == 0)startButton.interactable = false;
+        modeButton.interactable = false;
+        if (ll.layers.Count == 0)
+        {
+            startButton.interactable = false;
+        }
         else startButton.interactable = true;
     }
 
@@ -240,12 +245,12 @@ public class ANNContainer: MonoBehaviour
     {
         if (!ll.AddLayer())
         {
-            CheckStartButton();
+            CheckButtons();
             return;
         }
         IEnumerator render = InitializeNetwork();
         StartCoroutine(render);
-        CheckStartButton();
+        CheckButtons();
     }
 
     //Remove Layer and then re-create network
@@ -254,12 +259,12 @@ public class ANNContainer: MonoBehaviour
 
         if (!ll.RemoveLayer())
         {
-            CheckStartButton();
+            CheckButtons();
             return;
         }
         IEnumerator render = InitializeNetwork();
         StartCoroutine(render);
-        CheckStartButton();
+        CheckButtons();
     }
 
     public void SetFinished(bool _finished)
@@ -284,12 +289,22 @@ public class ANNContainer: MonoBehaviour
     {
         IEnumerator render = InitializeNetwork();
         StartCoroutine(render);
-        CheckStartButton();
+        CheckButtons();
     }
 
     private void UpdateNetwork()
     {
         GetComponent<ANNManager>().UpdateLayers();
+    }
+
+    public void ToggleMenu(bool visible)
+    {
+        transform.GetChild(2).gameObject.SetActive(visible);
+    }
+
+    public void SetModeActive(bool interactable)
+    {
+        modeButton.interactable = interactable;
     }
 
 }

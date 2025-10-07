@@ -25,6 +25,10 @@ public class StartPauseButton : MonoBehaviour
 
         //Branchless way of mapping 0 to 1, 1 to 2 and 2 to 1
         mode = (mode % 2) + 1;
-        ann.SetFinished(mode == 2);
+
+        //Pause Training and enable mode button when paused
+        bool paused = (mode == 2);
+        ann.SetFinished(paused);
+        ann.SetModeActive(paused);
     }
 }
