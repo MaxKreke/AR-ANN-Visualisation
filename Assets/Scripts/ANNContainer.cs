@@ -23,6 +23,7 @@ public class ANNContainer: MonoBehaviour
     private double[][] output;
 
     public LayerList ll;
+    public InputValues iv;
     public GameObject nodePrefab;
     public GameObject inputNodePrefab;
     public GameObject outputNodePrefab;
@@ -40,6 +41,8 @@ public class ANNContainer: MonoBehaviour
     void Start()
     {
         inputCount = GetComponent<DataLoader>().GetFeatureCount();
+
+        //Link with Canvas
         cc = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
         cc.AssignANNContainer(this);
 
@@ -51,7 +54,7 @@ public class ANNContainer: MonoBehaviour
     void Update()
     {
         if (finished)return;
-        if (error > threshold && epoch <= 10000)
+        if (error > threshold && epoch < 10000)
         {
             //Dividing error by trainingdataamount to get the average error per data point
             error = teacher.RunEpoch(input, output) / (double)input.Length;
@@ -65,6 +68,7 @@ public class ANNContainer: MonoBehaviour
             epoch++;
 
         }
+        //Final Epoch
         else
         {
             finished = true;
@@ -77,7 +81,7 @@ public class ANNContainer: MonoBehaviour
 
     void UpdateText()
     {
-        cc.StatusPrint(0, "Epoch: " + epoch + "\nError: " + Math.Sqrt(error));
+        cc.StatusPrint(0, "Epoch: " + epoch + "\nFehlerwert: " + Math.Sqrt(error));
     }
 
     private IEnumerator InitializeNetwork()
@@ -305,6 +309,12 @@ public class ANNContainer: MonoBehaviour
     public void SetModeActive(bool interactable)
     {
         modeButton.interactable = interactable;
+    }
+
+    public void PredictInput()
+    {
+        double[] prediction = network.Compute(iv.GetInput());
+        cc.StatusPrint(0, "Prediction: " + prediction[0].ToString("F4") + " " + prediction[1].ToString("F4") + " " + prediction[2].ToString("F4"));
     }
 
 }

@@ -51,5 +51,11 @@ public class InputValues : MonoBehaviour
         UpdateSlider();
     }
 
+    public double[] GetInput()
+    {
+        double[] input = new double[size];
+        for(int i = 0; i < size; i++)input[i]=values[i];
+        return input;
+    }
 
 }

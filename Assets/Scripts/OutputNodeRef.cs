@@ -35,6 +35,6 @@ public class OutputNodeRef : NodeRef
 
     public override string GetString()
     {
-        return "Class: " + className + "\nBias: " + GetBias().ToString();
+        return "Klasse: " + className + "\nBias: " + GetBias().ToString();
     }
 }

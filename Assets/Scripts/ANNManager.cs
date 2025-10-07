@@ -66,7 +66,7 @@ public class ANNManager : MonoBehaviour
                 if (wr)
                 {
                     Highlight(1.0f);
-                    WriteToInfo("Weight: " + wr.GetWeight().ToString());
+                    WriteToInfo("Gewicht: " + wr.GetWeight().ToString());
                 }
                 if (nr)
                 {
@@ -76,7 +76,7 @@ public class ANNManager : MonoBehaviour
                 if (iDesc)
                 {
                     Highlight(1.25f);
-                    WriteToInfo("Attribute: " + iDesc.GetAttributeName());
+                    WriteToInfo("Attribut: " + iDesc.GetAttributeName());
                 }
             }
         }
