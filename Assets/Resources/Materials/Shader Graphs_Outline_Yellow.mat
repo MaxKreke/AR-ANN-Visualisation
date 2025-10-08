@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Outline_Red
+  m_Name: Shader Graphs_Outline_Yellow
   m_Shader: {fileID: -6465566751694194690, guid: 02b308411bfe84241b552616bce36d3c,
     type: 3}
   m_Parent: {fileID: 0}
@@ -56,6 +56,6 @@ Material:
     - _QueueOffset: 0
     - _Scale: 0
     m_Colors:
-    - _Color: {r: 1, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

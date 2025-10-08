@@ -172,7 +172,7 @@ public class ANNContainer: MonoBehaviour
             if(input)
             {
                 nodeObj.GetComponent<InputDescription>().SetAttributeName(i);
-                nodeObj.transform.localScale = new Vector3(.2f, .06f, .2f);
+                nodeObj.transform.localScale = new Vector3(.25f, .045f, .25f);
                 continue;
             }
             

@@ -18,10 +18,10 @@ public class StartPauseButton : MonoBehaviour
 
     public void Toggle()
     {
-        buttonText.text = "Pause Training";
+        buttonText.text = "Training Pausieren";
 
         if (mode == 0) ann.StartProcess();
-        if (mode == 1) buttonText.text = "Resume Training";
+        if (mode == 1) buttonText.text = "Training Fortsetzen";
 
         //Branchless way of mapping 0 to 1, 1 to 2 and 2 to 1
         mode = (mode % 2) + 1;
