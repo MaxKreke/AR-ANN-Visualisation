@@ -14,6 +14,10 @@ public class OutputNodeRef : NodeRef
     public void SetClass(int idx)
     {
         className = classNames[idx];
+
+        //Assign correct texture to the material that corresponds to the class
+        Texture2D texture = Resources.Load<Texture2D>("Textures/"+idx.ToString());
+        transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material.mainTexture = texture;
     }
 
     public override void collectWeightRefs()

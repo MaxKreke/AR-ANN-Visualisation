@@ -49,7 +49,17 @@ public static class Utils
 
     public static void HighlightSelf(GameObject instance, float thickness)
     {
-        instance.GetComponent<MeshRenderer>().materials[1].SetFloat("_Scale", thickness);
+        HighlightMaterial(instance, 1, thickness);
+    }
+
+    public static void HighlightMarked(GameObject instance, float thickness)
+    {
+        HighlightMaterial(instance, 2, thickness);
+    }
+
+    private static void HighlightMaterial(GameObject instance, int materialIdx, float thickness)
+    {
+        instance.GetComponent<MeshRenderer>().materials[materialIdx].SetFloat("_Scale", thickness);
     }
 
 }
