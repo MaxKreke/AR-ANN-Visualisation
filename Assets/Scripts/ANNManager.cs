@@ -117,7 +117,9 @@ public class ANNManager : MonoBehaviour
     {
         if (!selected) return;
         NodeRef nr = selected.GetComponent<NodeRef>();
+        InputDescription id = selected.GetComponent<InputDescription>(); 
         if (nr) nr.Highlight(thickness);
+        else if (id) id.Highlight(thickness);
         else Utils.HighlightSelf(selected, thickness);
     }
 

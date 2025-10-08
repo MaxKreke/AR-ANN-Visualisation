@@ -25,15 +25,9 @@ public class InputDescription : MonoBehaviour
         return attributeName;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Highlight(float thickness)
     {
-        
+        Utils.HighlightSelf(transform.GetChild(0).gameObject, thickness);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

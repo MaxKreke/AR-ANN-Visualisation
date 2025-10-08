@@ -229,7 +229,7 @@ public class ANNContainer: MonoBehaviour
         wr.AssignThickness(thickness);
         wr.UpdateColorAndShape();
 
-        // ChatGPT generated code: rotate cylinder so its Y axis aligns with direction
+        // ChatGPT generated line: rotate cylinder so its Y axis aligns with direction
         weight.transform.rotation = Quaternion.FromToRotation(Vector3.up, weightPosition - prevNodePosition);
 
     }

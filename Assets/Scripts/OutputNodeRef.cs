@@ -28,7 +28,7 @@ public class OutputNodeRef : NodeRef
 
     public override void Highlight(float thickness)
     {
-        Utils.HighlightSelf(transform.GetChild(0).gameObject, thickness);
+        Utils.HighlightSelf(transform.GetChild(0).GetChild(0).gameObject, thickness);
         if (thickness > 0.01f) HighlightChildren(1.0f);
         else HighlightChildren(0.0f);
     }
