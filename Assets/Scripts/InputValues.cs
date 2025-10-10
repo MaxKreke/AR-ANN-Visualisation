@@ -5,6 +5,7 @@ using TMPro;
 public class InputValues : MonoBehaviour
 {
     public Slider slider;
+    public TMP_Text nameText;
     public TMP_Text displayText;
     private int currentIndex = 0;
     private int size = 0;
@@ -14,19 +15,8 @@ public class InputValues : MonoBehaviour
     private void Start()
     {
         size = values.Length;
-    }
-
-    public void UpdateText()
-    {
-        SetValue(slider.value);
-
-        //Display value as string with 4 significant digits
-        displayText.text = GetValue().ToString("F4");
-    }
-
-    public void UpdateSlider()
-    {
-        slider.value = GetValue();
+        CopyValue();
+        UpdateText();
     }
 
     public void SetValue(float value)
@@ -39,16 +29,44 @@ public class InputValues : MonoBehaviour
         return values[currentIndex];
     }
 
+    //Copy value from slider into array
+    public void CopyValue()
+    {
+        SetValue(slider.value);
+    }
+
+    //Write Value from array into slider
+    public void UpdateSlider()
+    {
+        slider.value = GetValue();
+    }
+
+    public void UpdateText()
+    {
+        //Display name of Attribute
+        nameText.text = Consts.names[currentIndex];
+
+        //Display value as string with 2 significant digits
+        displayText.text = GetUnnormalizedValue().ToString() + Consts.units[currentIndex];
+    }
+
+    public int GetUnnormalizedValue()
+    {
+        return Mathf.RoundToInt(((GetValue()) * (float)Consts.stdDev[currentIndex]) + (float)Consts.mean[currentIndex]);
+    }
+
     public void Next()
     {
         currentIndex=(currentIndex+1)%size;
         UpdateSlider();
+        UpdateText();
     }
 
     public void Prev()
     {
         currentIndex = (currentIndex + size - 1)%size;
         UpdateSlider();
+        UpdateText();
     }
 
     public double[] GetInput()
@@ -57,5 +75,4 @@ public class InputValues : MonoBehaviour
         for(int i = 0; i < size; i++)input[i]=values[i];
         return input;
     }
-
 }

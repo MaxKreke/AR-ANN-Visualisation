@@ -66,7 +66,7 @@ public class ANNManager : MonoBehaviour
                 if (wr)
                 {
                     Highlight(1.0f);
-                    WriteToInfo("Gewicht: " + wr.GetWeight().ToString());
+                    WriteToInfo("Gewicht:\n" + wr.GetWeight().ToString());
                 }
                 if (nr)
                 {
@@ -123,4 +123,21 @@ public class ANNManager : MonoBehaviour
         else Utils.HighlightSelf(selected, thickness);
     }
 
+    public void ColorByPrediction(double[] prediction)
+    {
+        if(prediction.Length != Consts.outputSize)
+        {
+            WriteToInfo("ERROR INVALID PREDICTION SIZE");
+            return;
+        }
+
+        //Calls color function on last Layer (output layer)
+        layers[^1].ColorByPrediction(prediction);
+    }
+
+    public void ResetColors()
+    {        
+        //Calls reset function on last Layer (output layer)
+        layers[^1].ResetColors();
+    }
 }

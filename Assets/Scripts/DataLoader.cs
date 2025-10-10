@@ -3,17 +3,6 @@ using System;
 
 public class DataLoader : MonoBehaviour
 {
-
-    //Old Mean and StdDev for unreduced dataset
-    //private double[] mean = { 2959.36, 155.65, 14.10, 269.43, 46.42, 2350.15, 212.15, 223.32, 142.53, 1980.29 };
-    //private double[] stdDev = { 279.98, 111.91, 7.49, 212.55, 58.30, 1559.25, 26.77, 19.77, 38.27, 1324.19 };
-
-    //Mean of every respective type of measurements in the dataset as reported in the covtype.info file
-    private double[] mean = { 2959.36, 269.43, 2350.15, 212.15, 223.32, 142.53, 1980.29 };
-
-    //Standard deviation of every respective type of measurements in the dataset as reported in the covtype.info file
-    private double[] stdDev = { 279.98, 212.55, 1559.25, 26.77, 19.77, 38.27, 1324.19 };
-
     public double[][] dpInputs;
     public double[][] dpOutputs;
     public double[][] valInputs;
@@ -115,7 +104,7 @@ public class DataLoader : MonoBehaviour
             for (int j = 0; j < featureCount; j++)
             {
                 //Normalize Value and write it into input matrixs
-                double normalizedValue = (double.Parse(dates[j]) - mean[j]) / stdDev[j];
+                double normalizedValue = (double.Parse(dates[j]) - Consts.mean[j]) / Consts.stdDev[j];
                 inputs[i][j] = normalizedValue;
             }
 

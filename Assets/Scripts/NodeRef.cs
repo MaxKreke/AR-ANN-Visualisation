@@ -55,4 +55,10 @@ public class NodeRef : MonoBehaviour
         return "Bias: " + GetBias().ToString();
     }
 
+    public virtual void UpdateColor(float brightness)
+    {
+        Debug.Log("here");
+        return;
+    }
+
 }

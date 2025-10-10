@@ -11,13 +11,18 @@ public class OutputNodeRef : NodeRef
     };
     private string className;
 
+    public Material GetTopMaterial()
+    {
+        return transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material;
+    }
+
     public void SetClass(int idx)
     {
         className = classNames[idx];
 
         //Assign correct texture to the material that corresponds to the class
         Texture2D texture = Resources.Load<Texture2D>("Textures/"+idx.ToString());
-        transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material.mainTexture = texture;
+        GetTopMaterial().mainTexture = texture;
     }
 
     public override void collectWeightRefs()
@@ -40,5 +45,10 @@ public class OutputNodeRef : NodeRef
     public override string GetString()
     {
         return "Klasse: " + className + "\nBias: " + GetBias().ToString();
+    }
+
+    public override void UpdateColor(float brightness)
+    {
+        GetTopMaterial().color = new Color(brightness, brightness, brightness);
     }
 }

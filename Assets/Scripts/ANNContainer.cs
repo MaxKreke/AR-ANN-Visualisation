@@ -12,6 +12,9 @@ using System.Collections;
 
 public class ANNContainer: MonoBehaviour
 {
+    //Attributes
+
+    //Neural Network
     private ActivationNetwork network;
     private double error = 1.0;
     private int epoch = 0;
@@ -19,24 +22,33 @@ public class ANNContainer: MonoBehaviour
     private BackPropagationLearning teacher;
     private int inputCount;
 
+    //Data
     private double[][] input;
     private double[][] output;
 
+    //Components of Object
     public LayerList ll;
     public InputValues iv;
+    public Button startButton;
+    public Button modeButton;
+
+    //Prefabs
     public GameObject nodePrefab;
     public GameObject inputNodePrefab;
     public GameObject outputNodePrefab;
     public GameObject weightPrefab;
 
-    public Button startButton;
-    public Button modeButton;
-
+    //Components in Scene
     private CanvasController cc;
 
+    //Properties
     private float scalingFactor = .5f;
 
+    //Variables
     private bool finished = true;
+
+
+    //Methods
 
     void Start()
     {
@@ -201,7 +213,6 @@ public class ANNContainer: MonoBehaviour
         lm.CollectNodeRefs();
     }
 
-
     private void CreateConnectingWeightBetweenObjects(Transform obj1, Transform obj2, int idx)
     {
         GameObject weight = GameObject.Instantiate(weightPrefab, obj1);
@@ -314,7 +325,8 @@ public class ANNContainer: MonoBehaviour
     public void PredictInput()
     {
         double[] prediction = network.Compute(iv.GetInput());
-        cc.StatusPrint(0, "Prediction: " + prediction[0].ToString("F4") + " " + prediction[1].ToString("F4") + " " + prediction[2].ToString("F4"));
+        cc.StatusPrint(0, "Vorhersage:\nKieferngewächse: " + prediction[0].ToString("F2") + "\nWeidengewächse:"  + prediction[1].ToString("F2") + "\nKrummholz: " + prediction[2].ToString("F2"));
+        GetComponent<ANNManager>().ColorByPrediction(prediction);
     }
 
 }

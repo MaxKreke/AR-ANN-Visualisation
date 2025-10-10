@@ -31,4 +31,22 @@ public class LayerManager : MonoBehaviour
         }
     }
 
+    public void ColorByPrediction(double[] prediction)
+    {
+        if (nrs.Count != prediction.Length)
+        {
+            Debug.LogError("Array Size Mismatch!");
+            return;
+        }
+        for(int i = 0; i < Consts.outputSize; i++)
+        {
+            nrs[i].UpdateColor((float)prediction[i]);
+        }
+    }
+
+    public void ResetColors()
+    {
+        foreach (NodeRef nr in nrs) nr.UpdateColor(1.0f);
+    }
+
 }
