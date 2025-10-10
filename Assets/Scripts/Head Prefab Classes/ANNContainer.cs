@@ -27,12 +27,14 @@ public class ANNContainer: MonoBehaviour
     private double[][] output;
 
     //Components of Object
+    [Header("Components")]
     public LayerList ll;
     public InputValues iv;
     public Button startButton;
     public Button modeButton;
 
     //Prefabs
+    [Header("Prefabs")]
     public GameObject nodePrefab;
     public GameObject inputNodePrefab;
     public GameObject outputNodePrefab;

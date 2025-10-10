@@ -6,9 +6,16 @@ using System.Collections.Generic;
 public class ANNManager : MonoBehaviour
 {
     public LayerMask ANNLayers;
+    //Other Components
+    public ToggleMode toggo;
+    public InputValues iv; 
     private CanvasController cc;
+
+    //Neural Network Component Refs
     public InputContainer ic;
     public List<LayerManager> layers;
+
+    //Variable
     public GameObject selected;
 
     void Start()
@@ -78,6 +85,10 @@ public class ANNManager : MonoBehaviour
                 {
                     Highlight(1.25f);
                     WriteToInfo("Attribut: " + iDesc.GetAttributeName());
+                    if (!toggo.GetIsTraining())
+                    {
+                        iv.SetCurrentIndex(hit.transform.GetSiblingIndex()); 
+                    }
                 }
             }
         }

@@ -8,6 +8,11 @@ public class ToggleMode : MonoBehaviour
     public ANNManager ann;
     public InputValues iv;
 
+    public bool GetIsTraining()
+    {
+        return training;
+    }
+
     public void SetMode()
     {
         training = !training;

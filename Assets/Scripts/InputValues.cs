@@ -44,6 +44,11 @@ public class InputValues : MonoBehaviour
         slider.value = GetValue();
     }
 
+    private int GetUnnormalizedValue()
+    {
+        return Mathf.RoundToInt(((GetValue()) * (float)Consts.stdDev[currentIndex]) + (float)Consts.mean[currentIndex]);
+    }
+
     public void UpdateText()
     {
         //Display name of Attribute
@@ -58,25 +63,22 @@ public class InputValues : MonoBehaviour
         ann.ColorBySelection(currentIndex);
     }
 
-    public int GetUnnormalizedValue()
+    public void SetCurrentIndex(int newIdx)
     {
-        return Mathf.RoundToInt(((GetValue()) * (float)Consts.stdDev[currentIndex]) + (float)Consts.mean[currentIndex]);
+        currentIndex = newIdx; 
+        UpdateSlider();
+        UpdateText();
+        UpdateSelection();
     }
 
     public void Next()
     {
-        currentIndex=(currentIndex+1)%size;
-        UpdateSlider();
-        UpdateText();
-        UpdateSelection();
+        SetCurrentIndex((currentIndex + 1) % size);
     }
 
     public void Prev()
     {
-        currentIndex = (currentIndex + size - 1)%size;
-        UpdateSlider();
-        UpdateText();
-        UpdateSelection();
+        SetCurrentIndex((currentIndex + size - 1) % size);
     }
 
     public double[] GetInput()
