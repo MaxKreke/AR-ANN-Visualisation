@@ -19,7 +19,7 @@ public static class Consts
     };
 
     //Units for every attribute
-    public static readonly string[] units = { "m", "m", "m", "", "", "", "m" };
+    public static readonly string[] units = { "m", "m", "m", "/255", "/255", "/255", "m" };
 
     public static readonly int inputSize = 7;
     public static readonly int outputSize = 3;

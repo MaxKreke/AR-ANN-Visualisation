@@ -7,6 +7,9 @@ public class InputValues : MonoBehaviour
     public Slider slider;
     public TMP_Text nameText;
     public TMP_Text displayText;
+
+    public ANNManager ann;
+
     private int currentIndex = 0;
     private int size = 0;
 
@@ -50,6 +53,11 @@ public class InputValues : MonoBehaviour
         displayText.text = GetUnnormalizedValue().ToString() + Consts.units[currentIndex];
     }
 
+    public void UpdateSelection()
+    {
+        ann.ColorBySelection(currentIndex);
+    }
+
     public int GetUnnormalizedValue()
     {
         return Mathf.RoundToInt(((GetValue()) * (float)Consts.stdDev[currentIndex]) + (float)Consts.mean[currentIndex]);
@@ -60,6 +68,7 @@ public class InputValues : MonoBehaviour
         currentIndex=(currentIndex+1)%size;
         UpdateSlider();
         UpdateText();
+        UpdateSelection();
     }
 
     public void Prev()
@@ -67,6 +76,7 @@ public class InputValues : MonoBehaviour
         currentIndex = (currentIndex + size - 1)%size;
         UpdateSlider();
         UpdateText();
+        UpdateSelection();
     }
 
     public double[] GetInput()

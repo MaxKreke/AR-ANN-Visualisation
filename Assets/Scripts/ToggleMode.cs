@@ -6,6 +6,7 @@ public class ToggleMode : MonoBehaviour
     private bool training = true;
     public TMP_Text buttonText;
     public ANNManager ann;
+    public InputValues iv;
 
     public void SetMode()
     {
@@ -19,6 +20,9 @@ public class ToggleMode : MonoBehaviour
             return;
         }
         buttonText.text = "Trainingsmodus";
+
+        //Paint Selected Node as soon as Vorhersagemodus is enabled
+        iv.UpdateSelection();
     }
 
 }

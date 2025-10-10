@@ -6,15 +6,10 @@ public class LayerManager : MonoBehaviour
 
     private List<NodeRef> nrs;
 
+    //Awake gets called as soon as Class is created as opposed to Start which gets called only at the beginning of the next frame
     public void Awake()
     {
         nrs = new List<NodeRef>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void CollectNodeRefs()

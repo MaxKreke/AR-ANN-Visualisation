@@ -7,6 +7,7 @@ public class ANNManager : MonoBehaviour
 {
     public LayerMask ANNLayers;
     private CanvasController cc;
+    public InputContainer ic;
     public List<LayerManager> layers;
     public GameObject selected;
 
@@ -100,8 +101,10 @@ public class ANNManager : MonoBehaviour
         layers = new List<LayerManager>();
         foreach (Transform t in transform.GetChild(0))
         {
+            InputContainer _ic = t.GetComponent<InputContainer>();
+            if (_ic) ic = _ic;
             LayerManager lm = t.GetComponent<LayerManager>();
-            if(lm)layers.Add(lm);
+            if (lm) layers.Add(lm);
         }
     }
 
@@ -135,9 +138,20 @@ public class ANNManager : MonoBehaviour
         layers[^1].ColorByPrediction(prediction);
     }
 
+    public void ColorBySelection(int selection)
+    {
+        if(selection >= Consts.inputSize)
+        {
+            WriteToInfo("ERROR INVALID INPUT INDEX");
+            return;
+        }
+        ic.ColorBySelection(selection);
+    }
+
     public void ResetColors()
     {        
-        //Calls reset function on last Layer (output layer)
+        //Calls reset function on last Layer (output layer) and on input layer
         layers[^1].ResetColors();
+        ic.ResetColors();
     }
 }

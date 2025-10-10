@@ -29,8 +29,8 @@ public class CanvasController : MonoBehaviour
     {
         menuVisible = !menuVisible;
         ann.ToggleMenu(menuVisible);
-        if (menuVisible) toggleButtonText.text = "Menü Ausblenden";
-        else toggleButtonText.text = "Menü Einblenden";
+        if (menuVisible) toggleButtonText.text = "Menü\nAusblenden";
+        else toggleButtonText.text = "Menü\nEinblenden";
     }
 
 }

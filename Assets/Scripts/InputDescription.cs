@@ -19,4 +19,9 @@ public class InputDescription : MonoBehaviour
         Utils.HighlightSelf(transform.GetChild(0).gameObject, thickness);
     }
 
+    public void ColorNode(bool selected)
+    {
+        transform.GetChild(1).GetComponent<MeshRenderer>().material.color = selected ? Color.yellow : Color.white;
+    }
+
 }

@@ -147,16 +147,14 @@ public class ANNContainer: MonoBehaviour
     {
         ActivationLayer layer = network.Layers[idx] as ActivationLayer;
         Transform container = transform.GetChild(0);
-        String name = "Layer " + idx;
-        if (input) name = "Input";
+        String name = input ? "Input" : "Layer " + idx;
         GameObject layerObj = new GameObject(name);
         layerObj.transform.SetParent(container);
         layerObj.transform.localScale = Vector3.one;
         layerObj.transform.localRotation = Quaternion.identity;
         layerObj.transform.localPosition = (Vector3.right *offset + Vector3.up/4)* scalingFactor;
 
-        int nodeCount = layer.Neurons.Length;
-        if (input) nodeCount = inputCount;
+        int nodeCount = input ? inputCount : layer.Neurons.Length;
 
         for (int i = 0; i < nodeCount; i++)
         {
@@ -206,7 +204,12 @@ public class ANNContainer: MonoBehaviour
             nr.collectWeightRefs();
         }
 
-        if (input) return;
+        if (input)
+        {
+            InputContainer ic = layerObj.AddComponent<InputContainer>();
+            ic.CollectInputRefs();
+            return;
+        }
 
         //Attach LayerManager to script and have it find its child nodes
         LayerManager lm = layerObj.AddComponent<LayerManager>();
