@@ -1,6 +1,8 @@
 using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.XR.ARFoundation;
 
 
 public class DataLoader : MonoBehaviour
@@ -10,6 +12,9 @@ public class DataLoader : MonoBehaviour
 
     private int batchSize;
     private int featureCount;
+
+    public CanvasController cc;
+    public ARSession session;
 
     //private string datasetName = "Dataset/oversampled_covtype";
     private string datasetName = "Dataset/reduced_dataset";
@@ -38,11 +43,19 @@ public class DataLoader : MonoBehaviour
         }
         string content = fileData.text;
         string[] lines = content.Split(new string[] { "\r\n", "\r", "\n" },StringSplitOptions.None);
-        int dataCount = lines.Length;
 
         //Shuffle Data Points
         Utils.Shuffle(lines);
 
+        //Create Batches in asyncrhonous as to not slow down loading of the scene.
+        cc.StatusPrint(0, "Lade Daten...");
+        IEnumerator batchCreation = CreateBatches(lines); 
+        StartCoroutine(batchCreation);
+    }
+
+    private IEnumerator CreateBatches(string[] lines)
+    {
+        int dataCount = lines.Length;
 
         //Create Batches
         int trainBatchCount = Mathf.FloorToInt((dataCount / batchSize) * .9f);
@@ -51,18 +64,32 @@ public class DataLoader : MonoBehaviour
         trainBatches = new List<Batch>();
         valBatches = new List<Batch>();
 
-        for(int i = 0; i < trainBatchCount; i++)
+
+        for (int i = 0; i < trainBatchCount; i++)
         {
             trainBatches.Add(prepareBatch(lines, i * batchSize));
+            if (i % 100 == 0)
+            {
+                cc.StatusPrint(0, (((float)(100*i))/trainBatchCount).ToString("F2") + "% der Trainingsdaten geladen.");
+                yield return null;
+            }
         }
 
         for (int i = 0; i < valBatchCount; i++)
         {
-            valBatches.Add(prepareBatch(lines, trainBatchCount+i * batchSize));
+            valBatches.Add(prepareBatch(lines, trainBatchCount + i * batchSize));
+            if (i % 100 == 0)
+            {
+                cc.StatusPrint(0, (((float)(100 * i)) / valBatchCount).ToString("F2") + "% der Validierungsdaten geladen.");
+                yield return null;
+            }
         }
 
         Debug.Log("Training Batches: " + trainBatches.Count);
         Debug.Log("Validation Batches: " + valBatches.Count);
+        cc.StatusPrint(0, "Bewege die Kamera und filme den Marker.");
+        session.enabled = true;
+        yield return null;
     }
 
     private void prepareData(string[] lines, double[][] inputs, double[][] outputs, int offset, int iterations)

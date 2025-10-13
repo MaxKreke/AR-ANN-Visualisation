@@ -61,6 +61,9 @@ public class ANNContainer: MonoBehaviour
         //Activate Toggle button as soon as the prefab is placed
         cc.ActivateToggleButton();
 
+        //Clear Status Text
+        cc.Clear(0);
+
         inputCount = Consts.inputSize;
     }
 

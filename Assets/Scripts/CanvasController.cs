@@ -15,6 +15,11 @@ public class CanvasController : MonoBehaviour
         statusText[idx].text = "" + text;
     }
 
+    public void Clear(int idx)
+    {
+        statusText[idx].text = "";
+    }
+
     public void ActivateToggleButton()
     {
         toggleButton.SetActive(true);
