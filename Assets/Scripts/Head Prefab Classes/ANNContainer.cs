@@ -42,6 +42,7 @@ public class ANNContainer: MonoBehaviour
 
     //Components in Scene
     private CanvasController cc;
+    private DataLoader dl;
 
     //Properties
     private float scalingFactor = .5f;
@@ -54,7 +55,9 @@ public class ANNContainer: MonoBehaviour
 
     void Start()
     {
-        inputCount = GetComponent<DataLoader>().GetFeatureCount();
+        //Access Data Loader
+        dl = GameObject.Find("DataLoader").GetComponent<DataLoader>();
+        inputCount = dl.GetFeatureCount();
 
         //Link with Canvas
         cc = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
@@ -297,7 +300,6 @@ public class ANNContainer: MonoBehaviour
     public void StartProcess()
     {
         //Set input and output data
-        DataLoader dl = GetComponent<DataLoader>();
         input = dl.GetInputs();
         output = dl.GetOutputs();
 

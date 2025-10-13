@@ -3202,7 +3202,6 @@ GameObject:
   - component: {fileID: 1361747128456586887}
   - component: {fileID: 1928067662569960023}
   - component: {fileID: 4585979994017121364}
-  - component: {fileID: 7016901055381279996}
   m_Layer: 0
   m_Name: Data ANN Cube
   m_TagString: Untagged
@@ -3347,18 +3346,6 @@ MonoBehaviour:
   ic: {fileID: 0}
   layers: []
   selected: {fileID: 0}
---- !u!114 &7016901055381279996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8673035450894583317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dfdd96d74fb0c749b83d5aef10f83ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8752860833335912105
 GameObject:
   m_ObjectHideFlags: 0
