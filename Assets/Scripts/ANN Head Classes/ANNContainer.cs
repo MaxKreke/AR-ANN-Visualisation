@@ -16,15 +16,11 @@ public class ANNContainer: MonoBehaviour
 
     //Neural Network
     private ActivationNetwork network;
-    private double error = 1.0;
-    private int epoch = 0;
-    private double threshold = 0.01;
+    private float accuracy = 0.0f;
+    private int iteration = 0;
+    private float threshold = 0.95f;
     private BackPropagationLearning teacher;
     private int inputCount;
-
-    //Data
-    private double[][] input;
-    private double[][] output;
 
     //Components of Object
     [Header("Components")]
@@ -44,8 +40,8 @@ public class ANNContainer: MonoBehaviour
     private CanvasController cc;
     private DataLoader dl;
 
-    //Properties
-    private float scalingFactor = .5f;
+    //Constants
+    private const float scalingFactor = .5f;
 
     //Variables
     private bool finished = true;
@@ -57,7 +53,6 @@ public class ANNContainer: MonoBehaviour
     {
         //Access Data Loader
         dl = GameObject.Find("DataLoader").GetComponent<DataLoader>();
-        inputCount = dl.GetFeatureCount();
 
         //Link with Canvas
         cc = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
@@ -65,24 +60,33 @@ public class ANNContainer: MonoBehaviour
 
         //Activate Toggle button as soon as the prefab is placed
         cc.ActivateToggleButton();
+
+        inputCount = Consts.inputSize;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (finished)return;
-        if (error > threshold && epoch < 10000)
+        if (accuracy < threshold && iteration < 10000)
         {
+
+            //Get Training Batch
+            Batch tBatch = dl.GetRandomBatch(true);
+
             //Dividing error by trainingdataamount to get the average error per data point
-            error = teacher.RunEpoch(input, output) / (double)input.Length;
+            teacher.RunEpoch(tBatch.GetInput(), tBatch.GetOutput());
+
+            //Compute Accuracy
+            accuracy = ComputeAccuracy(dl.GetRandomBatch(false));
 
             //Updating first and incrementing second, so that the first iteration gets printed
-            if (epoch % 10 == 0)
+            if (iteration % 10 == 0)
             {
                 UpdateNetwork();
                 UpdateText();
             }
-            epoch++;
+            iteration++;
 
         }
         //Final Epoch
@@ -98,13 +102,13 @@ public class ANNContainer: MonoBehaviour
 
     void UpdateText()
     {
-        cc.StatusPrint(0, "Epoch: " + epoch + "\nFehlerwert: " + Math.Sqrt(error));
+        cc.StatusPrint(0, "Batch: " + iteration + "\nValidierungsgenauigkeit:\n" + accuracy);
     }
 
     private IEnumerator InitializeNetwork()
     {
         //Reset Epochs to 0 and finished to true after network has been initialized to abort training
-        epoch = 0;
+        iteration = 0;
         finished = true;
 
         //Delete previous network if there is any
@@ -135,7 +139,7 @@ public class ANNContainer: MonoBehaviour
         //3 Output Nodes
         layers[layerCount] = 3;
 
-        //10 Input Nodes
+        //7 Input Nodes
         network = new ActivationNetwork(new SigmoidFunction(), inputCount, layers);
 
         //Initialize random Weights using a Gaussian Distribution
@@ -299,10 +303,6 @@ public class ANNContainer: MonoBehaviour
     //Start Training
     public void StartProcess()
     {
-        //Set input and output data
-        input = dl.GetInputs();
-        output = dl.GetOutputs();
-
         //Create new Backpropagation Object
         teacher = new BackPropagationLearning(network);
     }
@@ -334,6 +334,42 @@ public class ANNContainer: MonoBehaviour
         double[] prediction = network.Compute(iv.GetInput());
         cc.StatusPrint(0, "Vorhersage:\nKieferngewächse: " + prediction[0].ToString("F2") + "\nWeidengewächse:"  + prediction[1].ToString("F2") + "\nKrummholz: " + prediction[2].ToString("F2"));
         GetComponent<ANNManager>().ColorByPrediction(prediction);
+    }
+
+    private float ComputeAccuracy(Batch vBatch)
+    {
+        int correctPredictions = 0;
+        //Iterate over validation Data and count correct classification.
+        for (int i = 0; i < Consts.batchSize; i++)
+        {
+            double[] prediction = network.Compute(vBatch.GetInputRow(i));
+            double[] truth = vBatch.GetOutputRow(i);
+            if (ComparePrediction(prediction, truth)) correctPredictions++;
+        }
+        return (float)correctPredictions/(float)Consts.batchSize;
+    }
+
+    //Computes Prediction of both arrays based on the largest value and checks if they match
+    private bool ComparePrediction(double[] prediction, double[] truth)
+    {
+        double pMax = 0.0;
+        double tMax = 0.0;
+        int pMaxIdx = 0;
+        int tMaxIdx = 0;
+        for (int i = 0; i < Consts.outputSize; i++)
+        {
+            if (prediction[i] > pMax)
+            {
+                pMax = prediction[i];
+                pMaxIdx = i;
+            }
+            if (truth[i] > tMax)
+            {
+                tMax = truth[i];
+                tMaxIdx = i;
+            }
+        }
+        return pMaxIdx == tMaxIdx;
     }
 
 }

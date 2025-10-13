@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Batch
 {
-    public double[][] input;
-    public double[][] output;
-    public int batchSize;
+    private double[][] input;
+    private double[][] output;
+    private int batchSize;
 
     public Batch(double[][] _input, double[][] _output)
     {
@@ -12,4 +12,31 @@ public class Batch
         output = _output;
         batchSize = input.Length;
     }
+
+    //Getters
+    public double[][] GetInput()
+    {
+        return input;
+    }
+
+    public double[][] GetOutput()
+    {
+        return output;
+    }
+
+    public int GetBatchSize()
+    {
+        return batchSize;
+    }
+
+    public double[] GetInputRow(int i)
+    {
+        return input[i];
+    }
+
+    public double[] GetOutputRow(int i)
+    {
+        return output[i];
+    }
+
 }

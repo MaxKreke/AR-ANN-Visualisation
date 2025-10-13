@@ -23,4 +23,5 @@ public static class Consts
 
     public static readonly int inputSize = 7;
     public static readonly int outputSize = 3;
+    public static readonly int batchSize = 500;
 }

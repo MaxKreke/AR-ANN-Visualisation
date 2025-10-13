@@ -1,58 +1,30 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+
 
 public class DataLoader : MonoBehaviour
 {
-    public double[][] dpInputs;
-    public double[][] dpOutputs;
-    public double[][] valInputs;
-    public double[][] valOutputs;
-    //public List<Batch> trainBatches;
-    //public List<Batch> valBatches;
+    public List<Batch> trainBatches;
+    public List<Batch> valBatches;
 
-    private int totalDataAmount = 1000;
-    private int trainingDataAmount;
-    private int validatingDataAmount;
-    private int featureCount = 7;
+    private int batchSize;
+    private int featureCount;
 
     //private string datasetName = "Dataset/oversampled_covtype";
     private string datasetName = "Dataset/reduced_dataset";
 
-    public double[][] GetInputs()
+    public Batch GetRandomBatch(bool training)
     {
-        return dpInputs;
-    }
-
-    public double[][] GetOutputs()
-    {
-        return dpOutputs;
-    }
-
-    public double[][] GetValInputs()
-    {
-        return valInputs;
-    }
-
-    public double[][] GetValOutputs()
-    {
-        return valOutputs;
-    }
-
-    public int GetFeatureCount()
-    {
-        return featureCount;
+        if(training)return trainBatches[UnityEngine.Random.Range(0, trainBatches.Count)];
+        else return valBatches[UnityEngine.Random.Range(0, valBatches.Count)];
     }
 
     private void Start()
     {
-        trainingDataAmount = Mathf.FloorToInt(totalDataAmount * .7f);
-        validatingDataAmount = Mathf.FloorToInt(totalDataAmount * .3f);
+        batchSize = Consts.batchSize;
+        featureCount = Consts.inputSize;
         LoadData();
-    }
-
-    public int GetDataAmount()
-    {
-        return dpInputs.Length;
     }
 
     public void LoadData()
@@ -66,27 +38,31 @@ public class DataLoader : MonoBehaviour
         }
         string content = fileData.text;
         string[] lines = content.Split(new string[] { "\r\n", "\r", "\n" },StringSplitOptions.None);
+        int dataCount = lines.Length;
 
-        Debug.Log(lines.Length + " Zeilen.");
+        //Shuffle Data Points
         Utils.Shuffle(lines);
-        Debug.Log(lines.Length + " Zeilen.");
 
-        //Create inputs and Outputs for Training out of dingens
-        dpInputs = new double[trainingDataAmount][];
-        dpOutputs = new double[trainingDataAmount][];
-        valInputs = new double[validatingDataAmount][];
-        valOutputs = new double[validatingDataAmount][];
 
-        prepareData(lines, dpInputs, dpOutputs, 0, trainingDataAmount);
-        prepareData(lines, valInputs, valOutputs, trainingDataAmount, validatingDataAmount);
+        //Create Batches
+        int trainBatchCount = Mathf.FloorToInt((dataCount / batchSize) * .9f);
+        int valBatchCount = Mathf.FloorToInt((dataCount / batchSize) * .1f);
 
-        //NOT RELEVANT FOR MAIN APP; ONLY EXECUTED WHEN FEATURE ELIMINATION IS PRESENT
-        FeatureElimination test = GetComponent<FeatureElimination>();
-        if (test != null) {
-            Debug.Log("Initializing and Starting Network");
-            Debug.Log("Loaded " + dpInputs.Length + " Training Data and " + valInputs.Length + "Validation Data.");
-            test.InitializeAndStart();
+        trainBatches = new List<Batch>();
+        valBatches = new List<Batch>();
+
+        for(int i = 0; i < trainBatchCount; i++)
+        {
+            trainBatches.Add(prepareBatch(lines, i * batchSize));
         }
+
+        for (int i = 0; i < valBatchCount; i++)
+        {
+            valBatches.Add(prepareBatch(lines, trainBatchCount+i * batchSize));
+        }
+
+        Debug.Log("Training Batches: " + trainBatches.Count);
+        Debug.Log("Validation Batches: " + valBatches.Count);
     }
 
     private void prepareData(string[] lines, double[][] inputs, double[][] outputs, int offset, int iterations)
@@ -115,5 +91,17 @@ public class DataLoader : MonoBehaviour
         }
     }
 
+    private Batch prepareBatch(string[] lines, int offset)
+    {
+        //Create input/output matrices
+        double[][] inputs = new double[batchSize][];
+        double[][] outputs = new double[batchSize][];
+
+        //Fill matrices
+        prepareData(lines, inputs, outputs, offset, batchSize);
+
+        //Create Batch from matrices
+        return new Batch(inputs, outputs);
+    }
 
 }
