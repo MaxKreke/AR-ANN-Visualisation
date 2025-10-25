@@ -2,13 +2,6 @@ using UnityEngine;
 
 public class OutputNodeRef : NodeRef
 {
-
-    private string[] classNames =
-    {
-        "Kieferngewächse",
-        "Weidegewächse",
-        "Krummholz"
-    };
     private string className;
 
     public Material GetTopMaterial()
@@ -18,14 +11,14 @@ public class OutputNodeRef : NodeRef
 
     public void SetClass(int idx)
     {
-        className = classNames[idx];
+        className = Consts.classNames[idx];
 
         //Assign correct texture to the material that corresponds to the class
         Texture2D texture = Resources.Load<Texture2D>("Textures/"+idx.ToString());
         GetTopMaterial().mainTexture = texture;
     }
 
-    public override void collectWeightRefs()
+    public override void CollectWeightRefs()
     {
         //Adds All Weightrefs into wrs List
         for(int i = 1; i < transform.childCount; i++) 

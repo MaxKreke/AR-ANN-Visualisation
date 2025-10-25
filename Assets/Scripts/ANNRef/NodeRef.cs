@@ -24,7 +24,7 @@ public class NodeRef : MonoBehaviour
     public double GetBias() { return neuron.Threshold; }
     public float GetBiasF() { return (float)neuron.Threshold; }
 
-    public virtual void collectWeightRefs()
+    public virtual void CollectWeightRefs()
     {
         //Adds All Weightrefs into wrs List
         foreach(Transform t in transform)wrs.Add(t.gameObject.GetComponent<WeightRef>());
@@ -57,7 +57,6 @@ public class NodeRef : MonoBehaviour
 
     public virtual void UpdateColor(float brightness)
     {
-        Debug.Log("here");
         return;
     }
 

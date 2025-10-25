@@ -213,7 +213,7 @@ public class ANNContainer: MonoBehaviour
                 Transform otherNode = container.GetChild(idx).GetChild(j);
                 CreateConnectingWeightBetweenObjects(nodeObj.transform, otherNode, j);
             }
-            nr.collectWeightRefs();
+            nr.CollectWeightRefs();
         }
 
         if (input)

@@ -16,20 +16,19 @@ public class DataLoader : MonoBehaviour
     public CanvasController cc;
     public ARSession session;
 
-    //private string datasetName = "Dataset/oversampled_covtype";
     private string datasetName = "Dataset/reduced_dataset";
-
-    public Batch GetRandomBatch(bool training)
-    {
-        if(training)return trainBatches[UnityEngine.Random.Range(0, trainBatches.Count)];
-        else return valBatches[UnityEngine.Random.Range(0, valBatches.Count)];
-    }
 
     private void Start()
     {
         batchSize = Consts.batchSize;
         featureCount = Consts.inputSize;
         LoadData();
+    }
+
+    public Batch GetRandomBatch(bool training)
+    {
+        if(training)return trainBatches[UnityEngine.Random.Range(0, trainBatches.Count)];
+        else return valBatches[UnityEngine.Random.Range(0, valBatches.Count)];
     }
 
     public void LoadData()
@@ -67,20 +66,20 @@ public class DataLoader : MonoBehaviour
 
         for (int i = 0; i < trainBatchCount; i++)
         {
-            trainBatches.Add(prepareBatch(lines, i * batchSize));
-            if (i % 100 == 0)
+            trainBatches.Add(PrepareBatch(lines, i * batchSize));
+            if (i % 25 == 0)
             {
-                cc.StatusPrint(0, (((float)(100*i))/trainBatchCount).ToString("F2") + "% der Trainingsdaten geladen.");
+                cc.StatusPrint(0, (((float)(100*i))/trainBatchCount).ToString("0") + "% der Trainingsdaten geladen.");
                 yield return null;
             }
         }
 
         for (int i = 0; i < valBatchCount; i++)
         {
-            valBatches.Add(prepareBatch(lines, trainBatchCount + i * batchSize));
-            if (i % 100 == 0)
+            valBatches.Add(PrepareBatch(lines, trainBatchCount + i * batchSize));
+            if (i % 25 == 0)
             {
-                cc.StatusPrint(0, (((float)(100 * i)) / valBatchCount).ToString("F2") + "% der Validierungsdaten geladen.");
+                cc.StatusPrint(0, (((float)(100 * i)) / valBatchCount).ToString("0") + "% der Validierungsdaten geladen.");
                 yield return null;
             }
         }
@@ -92,7 +91,7 @@ public class DataLoader : MonoBehaviour
         yield return null;
     }
 
-    private void prepareData(string[] lines, double[][] inputs, double[][] outputs, int offset, int iterations)
+    private void PrepareData(string[] lines, double[][] inputs, double[][] outputs, int offset, int iterations)
     {
         for (int i = 0; i < iterations; i++)
         {
@@ -118,14 +117,14 @@ public class DataLoader : MonoBehaviour
         }
     }
 
-    private Batch prepareBatch(string[] lines, int offset)
+    private Batch PrepareBatch(string[] lines, int offset)
     {
         //Create input/output matrices
         double[][] inputs = new double[batchSize][];
         double[][] outputs = new double[batchSize][];
 
         //Fill matrices
-        prepareData(lines, inputs, outputs, offset, batchSize);
+        PrepareData(lines, inputs, outputs, offset, batchSize);
 
         //Create Batch from matrices
         return new Batch(inputs, outputs);

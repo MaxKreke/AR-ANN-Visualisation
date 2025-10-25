@@ -18,6 +18,12 @@ public static class Consts
         "Entfernung zu Brandstelle" 
     };
 
+    public static readonly string[] classNames ={
+        "Kieferngewächse",
+        "Weidegewächse",
+        "Krummholz"
+    };
+
     //Units for every attribute
     public static readonly string[] units = { "m", "m", "m", "/255", "/255", "/255", "m" };
 

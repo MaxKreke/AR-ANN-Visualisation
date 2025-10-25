@@ -6,7 +6,7 @@ public class InputContainer : MonoBehaviour
     private List<InputDescription> inputDescs;
 
     //Awake gets called as soon as Class is created as opposed to Start which gets called only at the beginning of the next frame
-    public void Awake()
+    void Awake()
     {
         inputDescs = new List<InputDescription>();
     }

@@ -15,7 +15,7 @@ public class InputValues : MonoBehaviour
 
     private float[] values = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
-    private void Start()
+    private void Awake()
     {
         size = values.Length;
         CopyValue();
