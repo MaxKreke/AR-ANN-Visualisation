@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
-  m_Name: ReferenceImageLibrary
+  m_Name: NewMarker
   m_EditorClassIdentifier: 
-  m_GuidLow: 4617946894606867215
-  m_GuidHigh: 7551396300752275135
+  m_GuidLow: 4701523106823594548
+  m_GuidHigh: 5097048825034224530
   m_DataStore:
     m_Storage: []
   m_Images:
   - m_SerializedGuid:
-      m_GuidLow: 5038995512629367842
-      m_GuidHigh: 17362615980074264230
+      m_GuidLow: 5174547068688503593
+      m_GuidHigh: 13796914422917263525
     m_SerializedTextureGuid:
-      m_GuidLow: 956134504113566969
-      m_GuidHigh: 1500729083356633323
+      m_GuidLow: 5792848214091830197
+      m_GuidHigh: 11678786607756157096
     m_Size: {x: 0, y: 0}
     m_SpecifySize: 0
-    m_Name: Marker
+    m_Name: Edited Marker
     m_Texture: {fileID: 0}
