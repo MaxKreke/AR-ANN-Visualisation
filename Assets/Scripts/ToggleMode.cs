@@ -8,6 +8,12 @@ public class ToggleMode : MonoBehaviour
     public ANNManager annM;
     public ANNContainer annC;
     public InputValues iv;
+    private Transform helpField;
+
+    private void Awake()
+    {
+        helpField = GameObject.Find("MainCanvas").transform.GetChild(2);
+    }
 
     public bool GetIsTraining()
     {
@@ -17,8 +23,8 @@ public class ToggleMode : MonoBehaviour
     public void SetMode()
     {
         training = !training;
-        transform.GetChild(0).gameObject.SetActive(training);
-        transform.GetChild(1).gameObject.SetActive(!training);
+        UpdateTransform(transform);
+        UpdateTransform(helpField);
         if (training)
         {
             buttonText.text = "Vorhersagemodus";
@@ -31,6 +37,12 @@ public class ToggleMode : MonoBehaviour
         iv.UpdateSelection();
 
         annC.PredictInput();
+    }
+
+    private void UpdateTransform(Transform t)
+    {
+        t.GetChild(0).gameObject.SetActive(training);
+        t.GetChild(1).gameObject.SetActive(!training);
     }
 
 }
