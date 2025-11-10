@@ -86,7 +86,7 @@ public class DataLoader : MonoBehaviour
 
         Debug.Log("Training Batches: " + trainBatches.Count);
         Debug.Log("Validation Batches: " + valBatches.Count);
-        cc.StatusPrint(0, "Bewege die Kamera und filme den Marker.");
+        cc.StatusPrint(0, "Bewege die Kamera und visiere den Marker an.");
         session.enabled = true;
         yield return null;
     }

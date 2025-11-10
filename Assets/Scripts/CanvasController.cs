@@ -20,9 +20,9 @@ public class CanvasController : MonoBehaviour
         statusText[idx].text = "";
     }
 
-    public void ActivateToggleButton()
+    public void ActivateToggleButton(bool active)
     {
-        toggleButton.SetActive(true);
+        toggleButton.SetActive(active);
     }
 
     public void AssignANNContainer(ANNContainer _ann)

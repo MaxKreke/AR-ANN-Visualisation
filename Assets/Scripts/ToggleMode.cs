@@ -4,15 +4,23 @@ using TMPro;
 public class ToggleMode : MonoBehaviour
 {
     private bool training = true;
+    private Transform helpField;
     public TMP_Text buttonText;
     public ANNManager annM;
     public ANNContainer annC;
     public InputValues iv;
-    private Transform helpField;
 
     private void Awake()
     {
         helpField = GameObject.Find("MainCanvas").transform.GetChild(2);
+        helpField.GetChild(0).gameObject.SetActive(true);
+        helpField.GetChild(2).gameObject.SetActive(true);
+    }
+
+    private void UpdateTransform(Transform t)
+    {
+        t.GetChild(0).gameObject.SetActive(training);
+        t.GetChild(1).gameObject.SetActive(!training);
     }
 
     public bool GetIsTraining()
@@ -29,6 +37,7 @@ public class ToggleMode : MonoBehaviour
         {
             buttonText.text = "Vorhersagemodus";
             annM.ResetColors();
+            annC.ClearConsole();
             return;
         }
         buttonText.text = "Trainingsmodus";
@@ -38,11 +47,4 @@ public class ToggleMode : MonoBehaviour
 
         annC.PredictInput();
     }
-
-    private void UpdateTransform(Transform t)
-    {
-        t.GetChild(0).gameObject.SetActive(training);
-        t.GetChild(1).gameObject.SetActive(!training);
-    }
-
 }

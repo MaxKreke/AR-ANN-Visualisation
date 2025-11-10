@@ -58,11 +58,8 @@ public class ANNContainer: MonoBehaviour
         cc = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
         cc.AssignANNContainer(this);
 
-        //Activate Toggle button as soon as the prefab is placed
-        cc.ActivateToggleButton();
-
         //Clear Status Text
-        cc.Clear(0);
+        ClearConsole();
 
         inputCount = Consts.inputSize;
     }
@@ -105,7 +102,7 @@ public class ANNContainer: MonoBehaviour
 
     void UpdateText()
     {
-        cc.StatusPrint(0, "Batch: " + iteration + "\nValidierungsgenauigkeit:\n" + accuracy);
+        cc.StatusPrint(0, "Datenblock: " + iteration + "\nValidierungsgenauigkeit:\n" + accuracy);
     }
 
     private IEnumerator InitializeNetwork()
@@ -265,9 +262,12 @@ public class ANNContainer: MonoBehaviour
         modeButton.interactable = false;
         if (ll.layers.Count == 0)
         {
+            cc.ActivateToggleButton(false);
             startButton.interactable = false;
+            return;
         }
-        else startButton.interactable = true;
+        cc.ActivateToggleButton(true);
+        startButton.interactable = true;
     }
 
     //Add Layer and then re-create network
@@ -373,6 +373,11 @@ public class ANNContainer: MonoBehaviour
             }
         }
         return pMaxIdx == tMaxIdx;
+    }
+
+    public void ClearConsole()
+    {
+        cc.Clear(0);
     }
 
 }
