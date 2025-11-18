@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
@@ -10,7 +10,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Collections;
 
-public class ANNContainer: MonoBehaviour
+public class ANNContainer : MonoBehaviour
 {
     //Attributes
 
@@ -46,6 +46,8 @@ public class ANNContainer: MonoBehaviour
     //Variables
     private bool finished = true;
 
+    private float startTime;
+
 
     //Methods
 
@@ -67,8 +69,8 @@ public class ANNContainer: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (finished)return;
-        if (accuracy < threshold && iteration < 10000)
+        if (finished) return;
+        if (accuracy < threshold && iteration < 1000)
         {
 
             //Get Training Batch
@@ -92,6 +94,7 @@ public class ANNContainer: MonoBehaviour
         //Final Epoch
         else
         {
+            cc.StatusPrint(1, "Zeit fÃ¼r 1000 Batches: " + (Time.time - startTime) + " Sekunden.");
             finished = true;
             startButton.interactable = false;
             modeButton.interactable = true;
@@ -112,7 +115,7 @@ public class ANNContainer: MonoBehaviour
         finished = true;
 
         //Delete previous network if there is any
-        foreach(Transform layer in transform.GetChild(0))
+        foreach (Transform layer in transform.GetChild(0))
         {
             Destroy(layer.gameObject);
         }
@@ -146,7 +149,7 @@ public class ANNContainer: MonoBehaviour
         new GaussianWeights(network, 1.0).Randomize();
 
         CreateLayer(-network.Layers.Length, 0, true);
-        for (int i = 0; i < network.Layers.Length; i++)CreateLayer(2 + 2 * i - network.Layers.Length, i, false);
+        for (int i = 0; i < network.Layers.Length; i++) CreateLayer(2 + 2 * i - network.Layers.Length, i, false);
 
         //Message ANNManager that layers have been created
         GetComponent<ANNManager>().CollectLayers();
@@ -161,7 +164,7 @@ public class ANNContainer: MonoBehaviour
         layerObj.transform.SetParent(container);
         layerObj.transform.localScale = Vector3.one;
         layerObj.transform.localRotation = Quaternion.identity;
-        layerObj.transform.localPosition = (Vector3.right *offset + Vector3.up/4)* scalingFactor;
+        layerObj.transform.localPosition = (Vector3.right * offset + Vector3.up / 4) * scalingFactor;
 
         int nodeCount = input ? inputCount : layer.Neurons.Length;
 
@@ -174,7 +177,7 @@ public class ANNContainer: MonoBehaviour
             else if (idx == network.Layers.Length - 1)
             {
                 nodeObj = GameObject.Instantiate(outputNodePrefab, layerObj.transform);
-                if(i > 2)
+                if (i > 2)
                 {
                     Debug.LogError("Index exceeds class number");
                     return;
@@ -188,13 +191,13 @@ public class ANNContainer: MonoBehaviour
             Vector3 nodePosition = (2 * i - nodeCount) * Vector3.forward * .165f;
             nodeObj.transform.localPosition = nodePosition;
 
-            if(input)
+            if (input)
             {
                 nodeObj.GetComponent<InputDescription>().SetAttributeName(i);
                 nodeObj.transform.localScale = new Vector3(.25f, .045f, .25f);
                 continue;
             }
-            
+
             nodeObj.transform.localScale = new Vector3(.2f, .2f, .2f);
 
             //Pass Neuron Object to node Object's noderef script
@@ -231,7 +234,7 @@ public class ANNContainer: MonoBehaviour
         WeightRef wr = weight.GetComponent<WeightRef>();
 
         //Assign connecting Nodes
-        wr.AssignTransforms(obj2,obj1);
+        wr.AssignTransforms(obj2, obj1);
 
         //Get Node
         Neuron neuron = obj1.gameObject.GetComponent<NodeRef>().GetNeuron();
@@ -248,7 +251,7 @@ public class ANNContainer: MonoBehaviour
         float absoluteDistance = (nodePosition - prevNodePosition).magnitude;
         //Define thickness
         float thickness = .16f;
-        weight.transform.localScale = new Vector3(thickness, absoluteDistance*12.5f/scalingFactor, thickness);
+        weight.transform.localScale = new Vector3(thickness, absoluteDistance * 12.5f / scalingFactor, thickness);
         wr.AssignThickness(thickness);
         wr.UpdateColorAndShape();
 
@@ -308,6 +311,7 @@ public class ANNContainer: MonoBehaviour
     {
         //Create new Backpropagation Object
         teacher = new BackPropagationLearning(network);
+        startTime = Time.time;
     }
 
     public void ResetNetwork()
@@ -335,7 +339,7 @@ public class ANNContainer: MonoBehaviour
     public void PredictInput()
     {
         double[] prediction = network.Compute(iv.GetInput());
-        cc.StatusPrint(0, "Vorhersage:\nKieferngewächse: " + prediction[0].ToString("F2") + "\nWeidengewächse:"  + prediction[1].ToString("F2") + "\nKrummholz: " + prediction[2].ToString("F2"));
+        cc.StatusPrint(0, "Vorhersage:\nKieferngewï¿½chse: " + prediction[0].ToString("F2") + "\nWeidengewï¿½chse:" + prediction[1].ToString("F2") + "\nKrummholz: " + prediction[2].ToString("F2"));
         GetComponent<ANNManager>().ColorByPrediction(prediction);
     }
 
@@ -349,7 +353,7 @@ public class ANNContainer: MonoBehaviour
             double[] truth = vBatch.GetOutputRow(i);
             if (ComparePrediction(prediction, truth)) correctPredictions++;
         }
-        return (float)correctPredictions/(float)Consts.batchSize;
+        return (float)correctPredictions / (float)Consts.batchSize;
     }
 
     //Computes Prediction of both arrays based on the largest value and checks if they match

@@ -18,6 +18,8 @@ public class DataLoader : MonoBehaviour
 
     private string datasetName = "Dataset/reduced_dataset";
 
+    private float startTime; 
+
     private void Start()
     {
         batchSize = Consts.batchSize;
@@ -48,6 +50,8 @@ public class DataLoader : MonoBehaviour
 
         //Create Batches in asyncrhonous as to not slow down loading of the scene.
         cc.StatusPrint(0, "Lade Daten...");
+
+        startTime = Time.time;
         IEnumerator batchCreation = CreateBatches(lines); 
         StartCoroutine(batchCreation);
     }
@@ -86,6 +90,10 @@ public class DataLoader : MonoBehaviour
 
         Debug.Log("Training Batches: " + trainBatches.Count);
         Debug.Log("Validation Batches: " + valBatches.Count);
+
+
+
+        cc.StatusPrint(1, "Daten Geladen in "+(Time.time-startTime)+" Sekunden.");
         cc.StatusPrint(0, "Bewege die Kamera und visiere den Marker an.");
         session.enabled = true;
         yield return null;
