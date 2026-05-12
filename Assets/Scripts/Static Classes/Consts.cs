@@ -14,8 +14,8 @@ public static class Consts
 
     public static readonly string[] names = {        
         "Erhebung",
-        "Entfernung zu Gew�ssern",
-        "Entfernung zu Stra�en",
+        "Entfernung zu Gewässern",
+        "Entfernung zu Straßen",
         "Hillshade Morgens",
         "Hillshade Mittags",
         "Hillshade Nachmittags",
@@ -23,8 +23,8 @@ public static class Consts
     };
 
     public static readonly string[] classNames ={
-        "Kieferngew�chse",
-        "Weidegew�chse",
+        "Kieferngewächse",
+        "Weidegewächse",
         "Krummholz"
     };
 
