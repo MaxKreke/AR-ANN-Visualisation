@@ -8,10 +8,14 @@ public static class Consts
     //Standard deviation of every respective type of measurements in the dataset as reported in the covtype.info file
     public static readonly double[] stdDev = { 279.98, 212.55, 1559.25, 26.77, 19.77, 38.27, 1324.19 };
 
+    //Definition of the range of values allowed in the slider
+    public static readonly double [] floor = {2000.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00};
+    public static readonly double [] ceil = {4000.00, 1000.00, 5000.00, 255.00, 255.00, 255.00, 6000.00};
+
     public static readonly string[] names = {        
         "Erhebung",
-        "Entfernung zu Gewässern",
-        "Entfernung zu Straßen",
+        "Entfernung zu Gewï¿½ssern",
+        "Entfernung zu Straï¿½en",
         "Hillshade Morgens",
         "Hillshade Mittags",
         "Hillshade Nachmittags",
@@ -19,8 +23,8 @@ public static class Consts
     };
 
     public static readonly string[] classNames ={
-        "Kieferngewächse",
-        "Weidegewächse",
+        "Kieferngewï¿½chse",
+        "Weidegewï¿½chse",
         "Krummholz"
     };
 
